@@ -1,0 +1,66 @@
+.background-start-container {
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url('../../utils/backgroundImages/Who-Wants-to-be-a-millionaire.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+    background-attachment: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: end;
+
+    .container {
+        font-size: 1.9rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 100px;
+        flex-basis: 40%;
+        p {
+            margin: 0;
+            padding: 2px;
+            text-align: center;
+        }
+
+        .btn {
+            border-color: rgba(33, 37, 41);
+            background-color: rgba(33, 37, 41);
+            font-size: 1.7rem;
+            padding: 10px;
+            &:hover{
+                border-color: rgba(78 83 88);
+            }
+        }
+
+        .dropdown {
+            padding: 0;
+
+            .dropdown-menu.show {
+                display: inline-block;
+                max-height: 40vh;
+                width: 40vw;
+                overflow-y: scroll;
+                background-color: rgba(65 69 73);
+                & a{
+                    text-align: center;
+                    font-size: 1.5rem;
+                    color: white;
+                    padding: 6px;
+                }
+                .dropdown-item:hover {    background-color: #ccd0d5;
+                color: black; }
+            }
+
+            button {
+                font-size: 1.7rem;
+                width: 100%;
+                padding: 10px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    }
+
+}
