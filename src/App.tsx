@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import StartGame from "./pages/startGame/StartGame";
 import QuestionsPage from './pages/questions/QuestionsPage';
+import EndGame from './pages/endGame/EndGame';
 
 
 function App() {
@@ -12,6 +13,8 @@ function App() {
       <Routes>
           <Route path="/" element={<StartGame/>} />
           <Route path="/questions" element={<QuestionsPage/>} />
+          <Route path="/end-game" element={<EndGame/>} />
+
       </Routes>
     </div>
     

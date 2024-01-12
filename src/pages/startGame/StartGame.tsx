@@ -8,12 +8,12 @@ import Row from 'react-bootstrap/Row';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 import * as categoryActions from '../../actions/categoryActions';
-import * as questionTypesActions from '../../actions/questionsTypesActions';
+import * as questionTypesActions from '../../actions/questionsActions';
 
 import './StartGame.scss';
 const StartGame = (props: any) => {
     useEffect(() => {
-        props.fetchEmployees()
+        props.fetchCategories()
     }, [])
     const navigate = useNavigate();
     const categories = props.categories;
@@ -41,11 +41,11 @@ const StartGame = (props: any) => {
                 <p>Category:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+                    {props.questions.categoryTypes.name}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {categories.categories.map((category: { name: string, id: number }) => {
-                            return <Dropdown.Item onClick={() => getCategories(category)}>{category.name}</Dropdown.Item>
+                            return <Dropdown.Item key={category.id} onClick={() => getCategories(category)}>{category.name}</Dropdown.Item>
                         })}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -54,7 +54,7 @@ const StartGame = (props: any) => {
                 <p>Difficulty:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+                        {props.questions.difficulty}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={getDifficulty}>Easy</Dropdown.Item>
@@ -70,12 +70,13 @@ const StartGame = (props: any) => {
 const mapStateToProps = (state: any, ownProps: any) => {
     return {
         categories: state.categories,
+        questions: state.questions,
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        fetchEmployees: () => dispatch(categoryActions.fetchCategories()),
+        fetchCategories: () => dispatch(categoryActions.fetchCategories()),
         getCategoryTypes: (type: { name: string, id: number }) => dispatch(questionTypesActions.getCategoryTypes(type)),
         getDifficultyTypes: (type: string) => dispatch(questionTypesActions.getDifficultyTypes(type)),
     };

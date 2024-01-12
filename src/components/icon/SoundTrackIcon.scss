@@ -1,0 +1,24 @@
+.icon-container {
+    position: absolute;
+    color: white;
+    right: 10px;
+    height: 31px;
+    width: 30px;
+    margin: 5px;
+
+    .svg-icon {
+        width: 100%;
+        height: 100%;
+
+        &:hover {
+            color: rgb(202, 195, 195);
+        }
+
+        &.show-icon {
+            display:block;
+        }
+        &.hide-icon {
+            display: none;
+        }
+    }
+}
