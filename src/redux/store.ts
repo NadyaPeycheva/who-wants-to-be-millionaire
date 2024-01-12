@@ -2,14 +2,14 @@ import {createStore, combineReducers, applyMiddleware} from "redux";
 import {thunk} from "redux-thunk";
 
 import categoryReducers from "./reducers/categoryReducers";
-import questionTypesReducers from "./reducers/questionTypesReducers";
+import questionsReducers from "./reducers/questionsReducers";
 
 const middlewareStore=applyMiddleware(thunk);
 
 const store = createStore(
     combineReducers({
       categories: categoryReducers,
-      questionTypes:questionTypesReducers
+      questions:questionsReducers
     }),
     middlewareStore
 );
