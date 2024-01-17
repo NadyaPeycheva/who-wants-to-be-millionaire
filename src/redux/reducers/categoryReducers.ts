@@ -1,6 +1,8 @@
 import * as actionTypes from '../../actions/actionTypes';
 
-const categoryReducers= (state = {
+import { CategoriesType } from '../../utils/types/Categories';
+
+const categoryReducers= (state:CategoriesType = {
     isFetching: false,
     categories: [],
   }, action:any) => {

@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import AxiosConfig from '../AxiosConfig';
 
+import { DispatchType } from '../redux/store';
+
 export const requestFetchCategories = () => {
     return {
         type: actionTypes.REQUEST_CATEGORIES,
@@ -19,7 +21,7 @@ export const fetchCategoriesFailed = () => {
 }
 
 export const fetchCategories = () => {
-    return (dispatch:any) => {
+    return (dispatch:DispatchType) => {
       dispatch(requestFetchCategories());
   
       return AxiosConfig.get('api_category.php')
@@ -49,3 +51,5 @@ export const fetchCategories = () => {
         })
     }
   }
+
+  export type FetchCategoriesType = typeof fetchCategories;

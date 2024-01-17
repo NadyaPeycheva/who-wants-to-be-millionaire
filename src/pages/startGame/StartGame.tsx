@@ -11,21 +11,38 @@ import * as categoryActions from '../../actions/categoryActions';
 import * as questionTypesActions from '../../actions/questionsActions';
 
 import './StartGame.scss';
-const StartGame = (props: any) => {
+//types
+import { FetchCategoriesType } from '../../actions/categoryActions';
+import { GetCategoryTypes } from '../../actions/questionsActions';
+import { GetDifficultyTypes } from '../../actions/questionsActions';
+import { QuestionType } from '../../utils/types/Questions';
+import { CategoriesType } from '../../utils/types/Categories';
+import { RootState } from '../../redux/store';
+import { DispatchType } from '../../redux/store';
+
+type StartGamePropsType={
+    questions:QuestionType,
+    categories:CategoriesType,
+    fetchCategories:FetchCategoriesType,
+    getCategoryTypes:GetCategoryTypes,
+    getDifficultyTypes:GetDifficultyTypes
+}
+
+const StartGame = ({questions,categories,fetchCategories,getCategoryTypes,getDifficultyTypes}: StartGamePropsType) => {
     useEffect(() => {
-        props.fetchCategories()
+        fetchCategories()
     }, [])
     const navigate = useNavigate();
-    const categories = props.categories;
+    // const categories = categories;
 
-    const getCategories = (e: any) => {
-        const questionType = e;
-        props.getCategoryTypes(questionType)
+    const getCategories = (e:{ name: string, id: number }) => {
+        const questionType = e;        
+        getCategoryTypes(questionType)
     }
 
-    const getDifficulty = (e:any) => {
-        const difficulty = e.target.text;
-        props.getDifficultyTypes(difficulty)
+    const getDifficulty = (e:React.MouseEvent<HTMLElement>) => {
+        const difficulty = e.currentTarget.textContent||"";
+        getDifficultyTypes(difficulty)
     }
 
     return <div className="background-start-container">
@@ -41,7 +58,7 @@ const StartGame = (props: any) => {
                 <p>Category:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    {props.questions.categoryTypes.name}
+                    {questions.categoryTypes.name}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {categories.categories.map((category: { name: string, id: number }) => {
@@ -54,7 +71,7 @@ const StartGame = (props: any) => {
                 <p>Difficulty:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        {props.questions.difficulty}
+                        {questions.difficulty}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={getDifficulty}>Easy</Dropdown.Item>
@@ -67,14 +84,14 @@ const StartGame = (props: any) => {
         </Container>
     </div >
 }
-const mapStateToProps = (state: any, ownProps: any) => {
+const mapStateToProps = (state: RootState, ownProps: any) => {
     return {
         categories: state.categories,
         questions: state.questions,
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: DispatchType) => {
     return {
         fetchCategories: () => dispatch(categoryActions.fetchCategories()),
         getCategoryTypes: (type: { name: string, id: number }) => dispatch(questionTypesActions.getCategoryTypes(type)),

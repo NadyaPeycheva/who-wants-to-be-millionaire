@@ -1,6 +1,8 @@
 import * as actionTypes from '../../actions/actionTypes';
 
-const questionsReducers = (state = {
+import { QuestionType } from '../../utils/types/Questions';
+
+const questionsReducers = (state:QuestionType = {
   categoryTypes: {id:0,name:'Choose category'},
   difficulty: 'Choose difficulty',
   isFetching: false,
