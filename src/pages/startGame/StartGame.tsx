@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
@@ -7,33 +6,58 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-import * as categoryActions from '../../actions/categoryActions';
-import * as questionTypesActions from '../../actions/questionsTypesActions';
+import { useAppDispatch } from '../../redux/store';
+import { fetchQuestions } from '../../redux/reducers/questionsReducers';
+import { fetchCategoriesApi } from '../../api/categoriesApi';
+
+import { CategoryType } from '../../redux/types/Categories';
 
 import './StartGame.scss';
-const StartGame = (props: any) => {
+
+const initialQuestionState: { selectedCategory: CategoryType, selectedDifficulty: string } = {
+    selectedCategory: { id: 0, name: "Choose category" },
+    selectedDifficulty: "Choose difficulty"
+}
+
+const StartGame = () => {
     useEffect(() => {
-        props.fetchEmployees()
+        getQuestionCategories()
+
     }, [])
+
+    const [questionCategories, setQuestionCategories] = useState<[]>([]);
+    const [questionsProperties, setQuestionsProperties] = useState(initialQuestionState);
+
+    const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const categories = props.categories;
 
-    const getCategories = (e: any) => {
-        const questionType = e;
-        props.getCategoryTypes(questionType)
+    const isBtnDisabled = questionsProperties.selectedCategory.name !== "Choose category" && questionsProperties.selectedDifficulty !== "Choose difficulty"
+
+    const getQuestionCategories = async () => {
+        const questionCategories = await fetchCategoriesApi();
+        setQuestionCategories(questionCategories)
     }
 
-    const getDifficulty = (e:any) => {
-        const difficulty = e.target.text;
-        props.getDifficultyTypes(difficulty)
+    const getCategories = (checkedCategory: { name: string, id: number }) => {
+        setQuestionsProperties(state => { return { ...state, selectedCategory: checkedCategory } })
     }
+
+    const getDifficulty = (event: React.MouseEvent<HTMLElement>) => {
+        const checkedDifficulty = event.currentTarget.textContent || "";
+        setQuestionsProperties(state => { return { ...state, selectedDifficulty: checkedDifficulty } })
+    }
+
+    const startGame = () => {
+        const questionData = { id: questionsProperties.selectedCategory.id, difficulty: questionsProperties.selectedDifficulty.toLowerCase() }
+        dispatch(fetchQuestions(questionData))
+        navigate('/questions');
+    }
+
 
     return <div className="background-start-container">
         <Container className='container'>
             <Row>
-                <Button className='btn' variant="secondary" size="lg" onClick={() => {
-                    navigate('/questions');
-                }}>
+                <Button className='btn' variant="secondary" size="lg" disabled={!isBtnDisabled} onClick={startGame}>
                     Start Game
                 </Button>
             </Row>
@@ -41,11 +65,11 @@ const StartGame = (props: any) => {
                 <p>Category:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+                        {questionsProperties.selectedCategory.name}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {categories.categories.map((category: { name: string, id: number }) => {
-                            return <Dropdown.Item onClick={() => getCategories(category)}>{category.name}</Dropdown.Item>
+                        {questionCategories.map((category: { name: string, id: number }) => {
+                            return <Dropdown.Item key={category.id} onClick={() => getCategories(category)}>{category.name}</Dropdown.Item>
                         })}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -54,7 +78,7 @@ const StartGame = (props: any) => {
                 <p>Difficulty:</p>
                 <Dropdown className='btn dropdown'>
                     <Dropdown.Toggle variant="success" id="dropdown-basic">
-                        Dropdown Button
+                        {questionsProperties.selectedDifficulty}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={getDifficulty}>Easy</Dropdown.Item>
@@ -62,24 +86,9 @@ const StartGame = (props: any) => {
                         <Dropdown.Item onClick={getDifficulty}>Hard</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-
             </Row>
         </Container>
     </div >
 }
-const mapStateToProps = (state: any, ownProps: any) => {
-    return {
-        categories: state.categories,
-    };
-};
 
-const mapDispatchToProps = (dispatch: any) => {
-    return {
-        fetchEmployees: () => dispatch(categoryActions.fetchCategories()),
-        getCategoryTypes: (type: { name: string, id: number }) => dispatch(questionTypesActions.getCategoryTypes(type)),
-        getDifficultyTypes: (type: string) => dispatch(questionTypesActions.getDifficultyTypes(type)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StartGame);
-
+export default StartGame;

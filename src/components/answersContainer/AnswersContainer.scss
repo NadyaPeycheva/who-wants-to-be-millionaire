@@ -1,0 +1,36 @@
+.answers-container {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 6%;
+    font-size: 3rem;
+
+    .question-title {
+        background-color: white;
+
+        & p {
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        align-items: center;
+        padding: 15px;
+        border-radius: 20px;
+    }
+
+    .row {
+        justify-content: space-between;
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    .col {
+        background-color: rgb(247 241 241 / 80%);
+        flex: none;
+        flex-basis: 49%;
+        padding: 10px;
+        border-radius: 15px;
+    }
+}

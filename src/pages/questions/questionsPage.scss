@@ -1,9 +1,43 @@
-.background-questions-container{
+.background-questions-container {
     height: 100vh;
     width: 100vw;
     background-image: url('../../utils/backgroundImages/when-was-who-wants-to-be-a-millionaire-2020-filmed--1586798141153.webp');
+
     background-repeat: no-repeat;
     background-size: cover;
-    background-position:center;
+    background-position: center;
     background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .spinner {
+        color: white;
+        width: 50px;
+        height: 50px;
+        margin: auto;
+    }
+
+    .questions-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0;
+
+        .next-btn {
+            font-size: 2rem;
+            // align-self: end;
+            margin: 1.5%;
+            padding: 20px;
+            background: none;
+            border-color: white;
+            font-weight: bold;
+
+            &:hover {
+                border-color: rgb(156, 148, 148);
+            }
+        }
+    }
 }
