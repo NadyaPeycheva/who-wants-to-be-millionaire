@@ -1,9 +1,63 @@
 .answered {
-     .correct-answer {
-        background-color: green!important;
+    .correct-answer.col {
+        background-color: green;
     }
 
-     .incorrect-answer .show {
-        background-color: red!important;
+    .correct-answer.show.col {
+        background-color: green;
+        animation: blinkerCorrect 2s;
+    }
+
+    .incorrect-answer.show {
+        background-color: red;
+        animation: blinkerInCorrect 2s;
+    }
+
+
+}
+
+@keyframes blinkerCorrect {
+    0% {
+        background-color: rgb(110, 148, 110);
+        // opacity: 0;
+    }
+
+    25% {
+        background-color: green;
+    }
+
+    50% {
+        background-color: rgb(110, 148, 110);
+        // opacity: 1;
+    }
+
+    75% {
+        background-color: green;
+    }
+
+    100% {
+        background-color: rgb(110, 148, 110);
+    }
+}
+
+@keyframes blinkerInCorrect {
+    0% {
+        background-color: rgb(186, 80, 80);
+    }
+
+    25% {
+        background-color: red;
+    }
+
+    50% {
+        background-color: rgb(186, 80, 80)
+    }
+
+    75% {
+        background-color: red;
+    }
+
+    100% {
+        background-color: rgb(186, 80, 80)
     }
 }

@@ -12,6 +12,7 @@ const SoundTrackIcon = () => {
     const [isPlaing, setIsPlaing] = useState({ audio: new Audio(sound), play: true });
 
     useEffect(() => {
+        //use ternaren operator
         if (isPlaing.play) {
             isPlaing.audio.play()
         } else {
@@ -21,10 +22,13 @@ const SoundTrackIcon = () => {
     }, [isPlaing.play])
 
     const playStopSound = () => {
+        //try without return
         setIsPlaing(currentState => { return { ...currentState, play: !currentState.play } })
+        // setIsPlaing(currentState=>{...currentState,play:!currentState.play})
     }
-
+    //icons in one row
     return <span className="icon-container" >
+
         <FontAwesomeIcon className={`svg-icon ${isPlaing.play ? "show-icon" : "hide-icon"}`} icon={faVolumeUp} onClick={playStopSound} />
         <FontAwesomeIcon className={`svg-icon ${isPlaing.play ? "hide-icon" : "show-icon"}`} icon={faVolumeDown} onClick={playStopSound} />
     </span>
